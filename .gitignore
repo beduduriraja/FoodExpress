@@ -35,3 +35,6 @@ build/
 # Backup source files
 *.backup
 *.bak
+
+# All backup copies
+*backup*
