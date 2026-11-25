@@ -32,3 +32,4 @@ DevOps tools and AWS.
 Developer -> GitHub -> Jenkins -> Tests ->
 SonarQube -> Trivy -> Docker -> ECR ->
 Kubernetes -> Prometheus -> Grafana
+CI/CD webhook test - automatic Jenkins deployment.
