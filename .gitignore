@@ -1,0 +1,37 @@
+# Environment files and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*credentials*
+
+# Python
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+
+# Node.js
+node_modules/
+dist/
+build/
+
+# Database backups and data
+*.dump
+*.sql
+*.sql.gz
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+
+# Logs and temporary files
+*.log
+.DS_Store
+
+# Backup source files
+*.backup
+*.bak

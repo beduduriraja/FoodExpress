@@ -1,0 +1,51 @@
+
+services:
+  db:
+    image: postgres:18-alpine
+    container_name: foodexpress-db
+    restart: unless-stopped
+    env_file:
+      - /etc/foodexpress/postgres.env
+    environment:
+      POSTGRES_DB: foodexpress
+      POSTGRES_USER: fooduser
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fooduser -d foodexpress"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./app/backend
+    container_name: foodexpress-backend
+    restart: unless-stopped
+    env_file:
+      - /etc/foodexpress/foodexpress.env
+    environment:
+      DB_HOST: db
+      DB_NAME: foodexpress
+      DB_USER: fooduser
+      DB_PORT: "5432"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build: ./app/frontend
+    container_name: foodexpress-frontend
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8081:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
